@@ -24,6 +24,7 @@ export function GlowingRingVisualizer({
     if (!stream || !canvasRef.current || !containerRef.current) return;
 
     // Initialize Audio Context
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
     if (!audioContextRef.current) {
       audioContextRef.current = new AudioContext();

@@ -1,25 +1,16 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-  ConnectionState,
-  LocalParticipant,
-  Participant,
-  RemoteParticipant,
-  Track,
-} from 'livekit-client';
+import { ConnectionState, RemoteParticipant, Track } from 'livekit-client';
 // Assuming standard UI button or I can use the custom one if it fits
-import { Loader2, MessageCircle, Mic, X } from 'lucide-react';
+import { Loader2, MessageCircle, X } from 'lucide-react';
 import {
   LiveKitRoom,
   RoomAudioRenderer,
   useConnectionState,
-  useLocalParticipant,
   useTracks,
 } from '@livekit/components-react';
 import { Button } from '@/components/livekit/button';
-import { cn } from '@/lib/utils';
 import { GlowingRingVisualizer } from './glowing-ring-visualizer';
 
 export function HomepageVoiceAgent() {
