@@ -82,7 +82,7 @@ export function AgentControlBar({
     <div
       aria-label="Voice assistant controls"
       className={cn(
-        'flex flex-col rounded-[31px] border border-white/10 bg-black/40 p-3 shadow-2xl backdrop-blur-xl transition-all hover:bg-black/60 hover:border-white/20',
+        'flex flex-col rounded-[31px] border border-white/10 bg-black/40 p-3 shadow-2xl backdrop-blur-xl transition-all hover:border-white/20 hover:bg-black/60',
         className
       )}
       {...props}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -31,7 +31,9 @@ export function Header() {
     <header
       className={cn(
         'fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300',
-        scrolled ? 'bg-black/50 backdrop-blur-md shadow-lg border-b border-white/5' : 'bg-transparent'
+        scrolled
+          ? 'border-b border-white/5 bg-black/50 shadow-lg backdrop-blur-md'
+          : 'bg-transparent'
       )}
     >
       <div className="flex items-center gap-2">
@@ -39,8 +41,8 @@ export function Header() {
         <Link
           href="/"
           className={cn(
-            "group flex items-center gap-2 transition-opacity duration-300",
-            scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
+            'group flex items-center gap-2 transition-opacity duration-300',
+            scrolled ? 'opacity-100' : 'pointer-events-none opacity-0'
           )}
         >
           <div className="relative aspect-[3/1] h-8 w-auto">

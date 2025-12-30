@@ -2,11 +2,10 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { HandHeart, Heart, MessageCircle, Sparkles, Mail } from 'lucide-react';
+import { HandHeart, Heart, Mail, MessageCircle, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
-import { cn } from '@/lib/utils';
 import { HomepageVoiceAgent } from '@/components/app/homepage-voice-agent';
+import { cn } from '@/lib/utils';
 
 // --- Types ---
 interface SectionProps {
@@ -59,7 +58,7 @@ export function OverviewSection({ className, id }: SectionProps) {
       >
         <motion.div variants={fadeInUp} className="space-y-4">
           {/* Section Label */}
-          <div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-lilac backdrop-blur-md">
+          <div className="text-brand-lilac mx-auto flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
             <Sparkles className="h-3 w-3" />
             <span>Sobre o Projeto</span>
           </div>
@@ -71,28 +70,23 @@ export function OverviewSection({ className, id }: SectionProps) {
 
         <motion.p
           variants={fadeInUp}
-          className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl"
+          className="text-muted-foreground mx-auto max-w-3xl text-lg leading-relaxed md:text-xl"
         >
           A EmpatIA é mais do que tecnologia: é uma companhia sempre presente. Uma inteligência
-          amiga que ouve, conversa e oferece apoio emocional, garantindo que o silêncio
-          nunca toma conta do dia.
+          amiga que ouve, conversa e oferece apoio emocional, garantindo que o silêncio nunca toma
+          conta do dia.
         </motion.p>
 
-        <motion.div
-          variants={staggerContainer}
-          className="grid grid-cols-1 gap-6 md:grid-cols-3"
-        >
+        <motion.div variants={staggerContainer} className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {/* Card 1 */}
           <motion.div
             variants={fadeInUp}
-            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-left shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-brand-signature/50 hover:bg-white/10 hover:shadow-brand-signature/10"
+            className="group hover:border-brand-signature/50 hover:shadow-brand-signature/10 relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-left shadow-2xl backdrop-blur-md transition-all duration-300 hover:bg-white/10"
           >
-            <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-signature/20 text-brand-lilac">
+            <div className="bg-brand-signature/20 text-brand-lilac mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg">
               <MessageCircle className="h-6 w-6" />
             </div>
-            <h3 className="font-heading mb-3 text-xl text-white">
-              Claro e Simples
-            </h3>
+            <h3 className="font-heading mb-3 text-xl text-white">Claro e Simples</h3>
             <p className="text-muted-foreground group-hover:text-gray-300">
               Frases diretas e uma voz natural, fáceis de entender por qualquer idade.
             </p>
@@ -101,14 +95,12 @@ export function OverviewSection({ className, id }: SectionProps) {
           {/* Card 2 */}
           <motion.div
             variants={fadeInUp}
-            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-left shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-brand-signature/50 hover:bg-white/10 hover:shadow-brand-signature/10"
+            className="group hover:border-brand-signature/50 hover:shadow-brand-signature/10 relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-left shadow-2xl backdrop-blur-md transition-all duration-300 hover:bg-white/10"
           >
-            <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-signature/20 text-brand-lilac">
+            <div className="bg-brand-signature/20 text-brand-lilac mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg">
               <Heart className="h-6 w-6" />
             </div>
-            <h3 className="font-heading mb-3 text-xl font-bold text-white">
-              Suave e Emocional
-            </h3>
+            <h3 className="font-heading mb-3 text-xl font-bold text-white">Suave e Emocional</h3>
             <p className="text-muted-foreground group-hover:text-gray-300">
               Acolhedora e atenciosa, mas equilibrada, sem excessos ou artificialidade.
             </p>
@@ -117,14 +109,12 @@ export function OverviewSection({ className, id }: SectionProps) {
           {/* Card 3 */}
           <motion.div
             variants={fadeInUp}
-            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-left shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-brand-signature/50 hover:bg-white/10 hover:shadow-brand-signature/10"
+            className="group hover:border-brand-signature/50 hover:shadow-brand-signature/10 relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-left shadow-2xl backdrop-blur-md transition-all duration-300 hover:bg-white/10"
           >
-            <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-signature/20 text-brand-lilac">
+            <div className="bg-brand-signature/20 text-brand-lilac mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg">
               <HandHeart className="h-6 w-6" />
             </div>
-            <h3 className="font-heading mb-3 text-xl font-bold text-white">
-              Sempre Presente
-            </h3>
+            <h3 className="font-heading mb-3 text-xl font-bold text-white">Sempre Presente</h3>
             <p className="text-muted-foreground group-hover:text-gray-300">
               Disponível 24/7 para ouvir, apoiar e transmitir empatia quando mais precisa.
             </p>
@@ -146,7 +136,7 @@ export function MissionSection({ className, id }: SectionProps) {
         variants={staggerContainer}
       >
         <motion.div variants={fadeInUp} className="flex-1 space-y-8">
-          <div className="flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-lilac backdrop-blur-md">
+          <div className="text-brand-lilac flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
             <Heart className="h-3 w-3" />
             <span>Nossa Missão</span>
           </div>
@@ -155,13 +145,13 @@ export function MissionSection({ className, id }: SectionProps) {
             Acreditamos no poder da <span className="text-brand-signature">Escuta Ativa.</span>
           </h2>
 
-          <div className="relative border-l-4 border-brand-signature pl-6">
-            <blockquote className="text-2xl font-light italic text-white/90">
+          <div className="border-brand-signature relative border-l-4 pl-6">
+            <blockquote className="text-2xl font-light text-white/90 italic">
               “Todos deveriam ter alguém para ouvir e ser ouvido.”
             </blockquote>
           </div>
 
-          <p className="text-lg leading-relaxed text-muted-foreground">
+          <p className="text-muted-foreground text-lg leading-relaxed">
             Acreditamos que a tecnologia pode ser uma ponte para o calor humano. A nossa missão é
             garantir que ninguém precise enfrentar os seus desafios sozinho. Através de conversas
             naturais e empáticas, oferecemos um porto seguro emocional.
@@ -170,13 +160,8 @@ export function MissionSection({ className, id }: SectionProps) {
 
         <motion.div variants={fadeInUp} className="flex flex-1 justify-center md:justify-end">
           <div className="relative h-[400px] w-full max-w-[400px] overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-2 shadow-2xl backdrop-blur-sm transition-transform duration-500 hover:scale-[1.02]">
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-            <Image
-              src="/idosa.png"
-              alt="Idosa a sorrir"
-              fill
-              className="rounded-xl object-cover"
-            />
+            <div className="from-background absolute inset-0 z-10 bg-gradient-to-t via-transparent to-transparent" />
+            <Image src="/idosa.png" alt="Idosa a sorrir" fill className="rounded-xl object-cover" />
           </div>
         </motion.div>
       </motion.div>
@@ -189,12 +174,12 @@ export function CallToActionSection({ className, id }: SectionProps) {
     <section
       id={id}
       className={cn(
-        'relative overflow-hidden border-y border-white/5 bg-white/5 px-6 py-24 backdrop-blur-sm md:px-12 scroll-mt-[35vh]',
+        'relative scroll-mt-[35vh] overflow-hidden border-y border-white/5 bg-white/5 px-6 py-24 backdrop-blur-sm md:px-12',
         className
       )}
     >
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-signature/10 to-transparent opacity-50" />
+      <div className="from-brand-signature/10 absolute inset-0 bg-gradient-to-r to-transparent opacity-50" />
 
       {/* Modern Geometric Pattern (Tech/AI Lines) */}
       <div className="absolute inset-0 z-0 opacity-20">
@@ -207,14 +192,30 @@ export function CallToActionSection({ className, id }: SectionProps) {
           {/* Subtle Grid */}
           <defs>
             <pattern id="techGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-white/20" />
+              <path
+                d="M 40 0 L 0 0 0 40"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="0.5"
+                className="text-white/20"
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#techGrid)" />
 
           {/* Accent Lines / Circuit Paths */}
-          <path d="M 0 100 Q 250 50 500 100 T 1000 100" fill="none" stroke="url(#lineGradient1)" strokeWidth="1" />
-          <path d="M 0 300 Q 250 350 500 300 T 1000 300" fill="none" stroke="url(#lineGradient1)" strokeWidth="1" />
+          <path
+            d="M 0 100 Q 250 50 500 100 T 1000 100"
+            fill="none"
+            stroke="url(#lineGradient1)"
+            strokeWidth="1"
+          />
+          <path
+            d="M 0 300 Q 250 350 500 300 T 1000 300"
+            fill="none"
+            stroke="url(#lineGradient1)"
+            strokeWidth="1"
+          />
 
           <defs>
             <linearGradient id="lineGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -225,8 +226,22 @@ export function CallToActionSection({ className, id }: SectionProps) {
           </defs>
 
           {/* Floating Geometric Elements */}
-          <circle cx="850" cy="100" r="150" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-          <circle cx="150" cy="300" r="100" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+          <circle
+            cx="850"
+            cy="100"
+            r="150"
+            fill="none"
+            stroke="rgba(255,255,255,0.05)"
+            strokeWidth="1"
+          />
+          <circle
+            cx="150"
+            cy="300"
+            r="100"
+            fill="none"
+            stroke="rgba(255,255,255,0.05)"
+            strokeWidth="1"
+          />
         </svg>
       </div>
 
@@ -237,10 +252,8 @@ export function CallToActionSection({ className, id }: SectionProps) {
         viewport={{ once: true }}
         variants={fadeInUp}
       >
-        <h2 className="font-heading text-4xl text-white md:text-5xl">
-          Pronto para conversar?
-        </h2>
-        <p className="mx-auto max-w-2xl text-xl text-muted-foreground">
+        <h2 className="font-heading text-4xl text-white md:text-5xl">Pronto para conversar?</h2>
+        <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
           Descubra como a EmpatIA pode fazer a diferença hoje mesmo.
         </p>
 
@@ -273,7 +286,7 @@ export function FoundersSection({ className, id }: SectionProps) {
 
   return (
     <section id={id} className={cn('relative overflow-hidden py-24 md:py-32', className)}>
-      <div className="container relative z-10 mx-auto px-6 text-center">
+      <div className="relative z-10 container mx-auto px-6 text-center">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -296,7 +309,7 @@ export function FoundersSection({ className, id }: SectionProps) {
                   🇵🇹
                 </div>
 
-                <div className="mb-6 h-32 w-32 overflow-hidden rounded-full border-2 border-white/20 shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:border-brand-signature">
+                <div className="group-hover:border-brand-signature mb-6 h-32 w-32 overflow-hidden rounded-full border-2 border-white/20 shadow-lg transition-transform duration-300 group-hover:scale-110">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={founder.image}
@@ -321,7 +334,7 @@ export function ContactSection({ className, id }: SectionProps) {
   return (
     <section id={id} className={cn('relative overflow-hidden px-6 py-24 md:px-12', className)}>
       {/* Footer Glow */}
-      <div className="absolute inset-x-0 bottom-0 h-[500px] bg-gradient-to-t from-brand-signature/20 to-transparent blur-3xl" />
+      <div className="from-brand-signature/20 absolute inset-x-0 bottom-0 h-[500px] bg-gradient-to-t to-transparent blur-3xl" />
 
       <motion.div
         className="relative z-10 mx-auto max-w-4xl space-y-12 text-center"
@@ -331,10 +344,8 @@ export function ContactSection({ className, id }: SectionProps) {
         variants={fadeInUp}
       >
         <div className="space-y-4">
-          <h2 className="font-heading text-4xl text-white md:text-5xl">
-            Estamos aqui para si
-          </h2>
-          <p className="text-xl font-light text-muted-foreground">
+          <h2 className="font-heading text-4xl text-white md:text-5xl">Estamos aqui para si</h2>
+          <p className="text-muted-foreground text-xl font-light">
             Quer saber mais sobre a EmpatIA ou apenas dizer olá?
           </p>
         </div>
@@ -343,13 +354,13 @@ export function ContactSection({ className, id }: SectionProps) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           href="mailto:hello@empatia-portugal.pt"
-          className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-xl font-medium text-white backdrop-blur-md transition-colors hover:bg-white/10 hover:border-white/20"
+          className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-xl font-medium text-white backdrop-blur-md transition-colors hover:border-white/20 hover:bg-white/10"
         >
-          <Mail className="h-6 w-6 text-brand-lilac" />
+          <Mail className="text-brand-lilac h-6 w-6" />
           hello@empatia-portugal.pt
         </motion.a>
 
-        <div className="border-t border-white/10 pt-12 text-sm text-muted-foreground/50">
+        <div className="text-muted-foreground/50 border-t border-white/10 pt-12 text-sm">
           © {new Date().getFullYear()} EmpatIA. Todos os direitos reservados.
         </div>
       </motion.div>

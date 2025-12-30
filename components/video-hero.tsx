@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { ScrollIndicator } from '@/components/scroll-indicator';
-import { cn } from '@/lib/utils';
 
 export function VideoHero() {
   return (
@@ -23,39 +22,35 @@ export function VideoHero() {
       </div>
 
       {/* Modern Gradient Overlay - Top Fade */}
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-background via-transparent to-background" />
+      <div className="from-background to-background pointer-events-none absolute inset-0 z-10 bg-gradient-to-b via-transparent" />
       {/* Radial Vignette */}
       <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)]" />
 
       {/* Content Container */}
-      <div className="relative z-20 flex min-h-screen flex-col items-center justify-center px-4 text-center pt-20">
-
+      <div className="relative z-20 flex min-h-screen flex-col items-center justify-center px-4 pt-20 text-center">
         {/* Badge / Label */}
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 mb-6 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1.5 px-4 text-sm font-medium text-brand-lilac backdrop-blur-md">
+        <div className="animate-in fade-in slide-in-from-bottom-4 text-brand-lilac mb-6 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium backdrop-blur-md duration-700">
           <Sparkles className="h-4 w-4" />
           <span>A Sua Companhia de IA</span>
         </div>
 
         {/* Main Headline */}
         {/* Main Logo */}
-        <div className="relative h-20 w-full animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150 sm:h-24 md:h-32 lg:h-40">
-          <img
-            src="/logo.png"
-            alt="EmpatIA Logo"
-            className="h-full w-full object-contain"
-          />
+        <div className="animate-in fade-in slide-in-from-bottom-6 relative h-20 w-full delay-150 duration-1000 sm:h-24 md:h-32 lg:h-40">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="EmpatIA Logo" className="h-full w-full object-contain" />
         </div>
 
         {/* Subheadline */}
-        <p className="animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300 mt-2 max-w-2xl text-2xl font-thin italic text-muted-foreground/80 md:text-3xl">
+        <p className="animate-in fade-in slide-in-from-bottom-6 text-muted-foreground/80 mt-2 max-w-2xl text-2xl font-thin italic delay-300 duration-1000 md:text-3xl">
           Sempre aqui!
         </p>
 
         {/* CTA Buttons */}
-        <div className="animate-in fade-in zoom-in duration-1000 delay-500 mt-12 flex flex-col items-center gap-4 sm:flex-row">
+        <div className="animate-in fade-in zoom-in mt-12 flex flex-col items-center gap-4 delay-500 duration-1000 sm:flex-row">
           <Link
             href="#voice-agent"
-            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-brand-signature px-8 font-medium text-white transition-all duration-300 hover:scale-105 hover:bg-brand-signature/90 focus:outline-none focus:ring-2 focus:ring-brand-signature focus:ring-offset-2 focus:ring-offset-background"
+            className="group bg-brand-signature hover:bg-brand-signature/90 focus:ring-brand-signature focus:ring-offset-background relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8 font-medium text-white transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none"
           >
             {/* Glow Effect */}
             <div className="absolute inset-0 -z-10 bg-gradient-to-r from-violet-600 to-indigo-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -74,7 +69,7 @@ export function VideoHero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-0 right-0 z-20">
+      <div className="absolute right-0 bottom-10 left-0 z-20">
         <ScrollIndicator />
       </div>
     </div>

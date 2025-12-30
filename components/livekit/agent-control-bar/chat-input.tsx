@@ -32,7 +32,7 @@ interface ChatInputProps {
 export function ChatInput({
   chatOpen,
   isAgentAvailable = false,
-  onSend = async () => { },
+  onSend = async () => {},
 }: ChatInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSending, setIsSending] = useState(false);
@@ -65,7 +65,7 @@ export function ChatInput({
       inert={!chatOpen}
       {...MOTION_PROPS}
       animate={chatOpen ? 'visible' : 'hidden'}
-      className="border-white/10 flex w-full items-start overflow-hidden border-b bg-transparent"
+      className="flex w-full items-start overflow-hidden border-b border-white/10 bg-transparent"
     >
       <form
         onSubmit={handleSubmit}
