@@ -279,7 +279,7 @@ export function FoundersSection({ className, id }: SectionProps) {
     },
     {
       name: 'Gil',
-      role: 'CEO & Tech Lead',
+      role: 'Co-Founder & Tech Lead',
       image: '/team/Gil.png',
     },
   ];
