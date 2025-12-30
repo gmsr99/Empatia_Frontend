@@ -20,18 +20,18 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
+  companyName: 'EmpatIA',
+  pageTitle: 'EmpatIA',
+  pageDescription: 'A sua companhia de IA',
 
   supportsChatInput: true,
   supportsVideoInput: true,
   supportsScreenShare: true,
   isPreConnectBufferEnabled: true,
 
-  logo: '/lk-logo.svg',
+  logo: '/logo.png',
   accent: '#002cf2',
-  logoDark: '/lk-logo-dark.svg',
+  logoDark: undefined,
   accentDark: '#1fd5f9',
   startButtonText: 'Start call',
 

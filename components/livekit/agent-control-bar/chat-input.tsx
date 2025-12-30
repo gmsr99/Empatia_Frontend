@@ -19,7 +19,7 @@ const MOTION_PROPS = {
   initial: 'hidden',
   transition: {
     duration: 0.3,
-    ease: 'easeOut',
+    ease: 'easeOut' as const,
   },
 };
 
@@ -32,7 +32,7 @@ interface ChatInputProps {
 export function ChatInput({
   chatOpen,
   isAgentAvailable = false,
-  onSend = async () => {},
+  onSend = async () => { },
 }: ChatInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSending, setIsSending] = useState(false);
@@ -65,11 +65,11 @@ export function ChatInput({
       inert={!chatOpen}
       {...MOTION_PROPS}
       animate={chatOpen ? 'visible' : 'hidden'}
-      className="border-input/50 flex w-full items-start overflow-hidden border-b"
+      className="border-white/10 flex w-full items-start overflow-hidden border-b bg-transparent"
     >
       <form
         onSubmit={handleSubmit}
-        className="mb-3 flex grow items-end gap-2 rounded-md pl-1 text-sm"
+        className="mb-3 flex grow items-end gap-2 rounded-md pl-1 text-sm text-white"
       >
         <input
           autoFocus

@@ -1,10 +1,27 @@
-import { headers } from 'next/headers';
-import { App } from '@/components/app/app';
-import { getAppConfig } from '@/lib/utils';
+import { Header } from '@/components/header';
+import {
+  CallToActionSection,
+  ContactSection,
+  FoundersSection,
+  MissionSection,
+  OverviewSection,
+} from '@/components/landing-sections';
+import { VideoHero } from '@/components/video-hero-wrapper';
 
 export default async function Page() {
-  const hdrs = await headers();
-  const appConfig = await getAppConfig(hdrs);
+  return (
+    <main className="flex min-h-screen flex-col">
+      <Header />
 
-  return <App appConfig={appConfig} />;
+      {/* Hero Section - Video Loop */}
+      <VideoHero />
+
+      {/* Content Sections */}
+      <OverviewSection id="overview" />
+      <MissionSection id="mission" />
+      <CallToActionSection id="voice-agent" />
+      <FoundersSection id="founders" />
+      <ContactSection id="contact" />
+    </main>
+  );
 }

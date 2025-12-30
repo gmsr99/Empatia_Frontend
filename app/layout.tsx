@@ -1,4 +1,4 @@
-import { Public_Sans } from 'next/font/google';
+import { Inter, Montserrat } from 'next/font/google';
 import localFont from 'next/font/local';
 import { headers } from 'next/headers';
 import { ThemeProvider } from '@/components/app/theme-provider';
@@ -6,8 +6,13 @@ import { ThemeToggle } from '@/components/app/theme-toggle';
 import { cn, getAppConfig, getStyles } from '@/lib/utils';
 import '@/styles/globals.css';
 
-const publicSans = Public_Sans({
-  variable: '--font-public-sans',
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
+  subsets: ['latin'],
+});
+
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
 });
 
@@ -53,7 +58,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       lang="en"
       suppressHydrationWarning
       className={cn(
-        publicSans.variable,
+        montserrat.variable,
+        inter.variable,
         commitMono.variable,
         'scroll-smooth font-sans antialiased'
       )}
@@ -63,13 +69,16 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
       </head>
-      <body className="overflow-x-hidden">
+      <body className="overflow-x-hidden bg-background">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
+          {/* Ambient Background Glow */}
+          <div className="pointer-events-none fixed inset-0 z-[-1] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-brand-signature/20 via-background to-background" />
+
           {children}
           <div className="group fixed bottom-0 left-1/2 z-50 mb-2 -translate-x-1/2">
             <ThemeToggle className="translate-y-20 transition-transform delay-150 duration-300 group-hover:translate-y-0" />

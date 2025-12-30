@@ -18,7 +18,7 @@ const ANIMATION_TRANSITION = {
   stiffness: 675,
   damping: 75,
   mass: 1,
-};
+} as const;
 
 const classNames = {
   // GRID
@@ -123,8 +123,8 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
                     delay: animationDelay,
                   }}
                   className={cn(
-                    'bg-background aspect-square h-[90px] rounded-md border border-transparent transition-[border,drop-shadow]',
-                    chatOpen && 'border-input/50 drop-shadow-lg/10 delay-200'
+                    'bg-black/20 aspect-square h-[90px] rounded-md border border-white/10 transition-[border,drop-shadow] backdrop-blur-md',
+                    chatOpen && 'border-brand-lilac/30 drop-shadow-[0_0_15px_rgba(216,180,254,0.1)] delay-200'
                   )}
                 >
                   <BarVisualizer
