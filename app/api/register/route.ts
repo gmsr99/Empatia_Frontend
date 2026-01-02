@@ -3,10 +3,10 @@ import bcrypt from 'bcryptjs';
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
+  host: process.env.POSTGRES_HOST || '72.60.89.5',
+  user: process.env.POSTGRES_USER || 'empatia_admin',
+  password: process.env.POSTGRES_PASSWORD || 'bigmoneycoming',
+  database: process.env.POSTGRES_DB || 'empatia_db',
 });
 
 export async function POST(req: Request) {
