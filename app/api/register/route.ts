@@ -49,8 +49,8 @@ export async function POST(req: Request) {
     } finally {
       client.release();
     }
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Error' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Registration Error:', error);
+    return NextResponse.json({ message: error.message || 'Error executing request' }, { status: 500 });
   }
 }
