@@ -158,7 +158,10 @@ export function MissionSection({ className, id }: SectionProps) {
           </p>
         </motion.div>
 
-        <motion.div variants={fadeInUp} className="flex w-full flex-1 justify-center md:justify-end">
+        <motion.div
+          variants={fadeInUp}
+          className="flex w-full flex-1 justify-center md:justify-end"
+        >
           <div className="relative h-[400px] w-full max-w-[400px] overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-2 shadow-2xl backdrop-blur-sm transition-transform duration-500 hover:scale-[1.02]">
             <div className="from-background absolute inset-0 z-10 bg-gradient-to-t via-transparent to-transparent" />
             <Image src="/idosa.png" alt="Idosa a sorrir" fill className="rounded-xl object-cover" />
