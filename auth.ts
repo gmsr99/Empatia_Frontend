@@ -23,31 +23,42 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        const email = credentials.email as string;
-        const password = credentials.password as string;
-
-        // Logic to fetch user from DB
-        const client = await pool.connect();
         try {
-          const res = await client.query('SELECT * FROM users WHERE email = $1', [email]);
-          const user = res.rows[0];
-
-          if (!user) {
+          if (!credentials?.email || !credentials?.password) {
+            console.log("Missing credentials");
             return null;
           }
 
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-          if (!passwordsMatch) {
-            return null;
-          }
+          const email = credentials.email as string;
+          const password = credentials.password as string;
 
-          return user;
-        } finally {
-          client.release();
+          console.log("Attempting login via DB for:", email);
+
+          // Logic to fetch user from DB
+          const client = await pool.connect();
+          try {
+            const res = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+            const user = res.rows[0];
+
+            if (!user) {
+              console.log("User not found in DB:", email);
+              return null;
+            }
+
+            const passwordsMatch = await bcrypt.compare(password, user.password);
+            if (!passwordsMatch) {
+              console.log("Password mismatch for:", email);
+              return null;
+            }
+
+            console.log("User authenticated successfully:", user.id);
+            return user;
+          } finally {
+            client.release();
+          }
+        } catch (error) {
+          console.error("Critical Auth Error:", error);
+          return null;
         }
       },
     }),
