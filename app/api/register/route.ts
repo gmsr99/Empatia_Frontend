@@ -49,8 +49,12 @@ export async function POST(req: Request) {
     } finally {
       client.release();
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Registration Error:', error);
-    return NextResponse.json({ message: error.message || 'Error executing request' }, { status: 500 });
+    return NextResponse.json(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      { message: (error as any).message || 'Error executing request' },
+      { status: 500 }
+    );
   }
 }
