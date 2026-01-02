@@ -36,7 +36,8 @@ export async function POST(req: Request) {
     const requestedName: string | undefined = body?.name;
 
     // Generate participant token
-    const participantIdentity = requestedIdentity || `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`;
+    const participantIdentity =
+      requestedIdentity || `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`;
     const participantName = requestedName || 'user';
     const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
 

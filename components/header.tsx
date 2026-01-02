@@ -1,16 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-import { useSession, signIn, signOut } from "next-auth/react";
-
 export function Header() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -73,7 +72,7 @@ export function Header() {
           </Link>
         ))}
 
-        {status === "authenticated" ? (
+        {status === 'authenticated' ? (
           <>
             <Link
               href="/dashboard"
@@ -83,7 +82,7 @@ export function Header() {
             </Link>
             <button
               onClick={() => signOut()}
-              className="bg-white/10 hover:bg-white/20 rounded-full px-5 py-2.5 text-sm font-medium text-white transition-all border border-white/10"
+              className="rounded-full border border-white/10 bg-white/10 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/20"
             >
               Sair
             </button>
@@ -130,7 +129,7 @@ export function Header() {
                 </Link>
               ))}
 
-              {status === "authenticated" ? (
+              {status === 'authenticated' ? (
                 <>
                   <Link
                     href="/dashboard"
@@ -140,8 +139,11 @@ export function Header() {
                     Área de Cliente
                   </Link>
                   <button
-                    onClick={() => { signOut(); setIsMenuOpen(false); }}
-                    className="bg-white/10 hover:bg-white/20 w-full rounded-full px-5 py-3 text-center text-lg font-medium text-white transition-all border border-white/10 mt-4"
+                    onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="mt-4 w-full rounded-full border border-white/10 bg-white/10 px-5 py-3 text-center text-lg font-medium text-white transition-all hover:bg-white/20"
                   >
                     Sair
                   </button>
@@ -149,7 +151,7 @@ export function Header() {
               ) : (
                 <Link
                   href="/login"
-                  className="bg-brand-signature hover:bg-brand-signature/90 w-full rounded-full px-5 py-3 text-center text-lg font-medium text-white shadow-md transition-all mt-4"
+                  className="bg-brand-signature hover:bg-brand-signature/90 mt-4 w-full rounded-full px-5 py-3 text-center text-lg font-medium text-white shadow-md transition-all"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Entrar
