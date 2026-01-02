@@ -7,7 +7,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+import { useSession, signIn, signOut } from "next-auth/react";
+
 export function Header() {
+  const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -69,12 +72,30 @@ export function Header() {
             {link.label}
           </Link>
         ))}
-        <Link
-          href="#voice-agent"
-          className="bg-brand-signature hover:bg-brand-signature/90 rounded-full px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:scale-105"
-        >
-          Experimentar
-        </Link>
+
+        {status === "authenticated" ? (
+          <>
+            <Link
+              href="/dashboard"
+              className="hover:text-brand-lilac text-sm font-medium text-white/80 transition-colors"
+            >
+              Área de Cliente
+            </Link>
+            <button
+              onClick={() => signOut()}
+              className="bg-white/10 hover:bg-white/20 rounded-full px-5 py-2.5 text-sm font-medium text-white transition-all border border-white/10"
+            >
+              Sair
+            </button>
+          </>
+        ) : (
+          <Link
+            href="/login"
+            className="bg-brand-signature hover:bg-brand-signature/90 rounded-full px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:scale-105"
+          >
+            Entrar
+          </Link>
+        )}
       </nav>
 
       {/* Mobile Menu Button */}
@@ -108,13 +129,32 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="#voice-agent"
-                className="bg-brand-signature hover:bg-brand-signature/90 w-full rounded-full px-5 py-3 text-center text-lg font-medium text-white shadow-md transition-all"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Experimentar Agora
-              </Link>
+
+              {status === "authenticated" ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="hover:text-brand-lilac py-2 text-lg font-medium text-white transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Área de Cliente
+                  </Link>
+                  <button
+                    onClick={() => { signOut(); setIsMenuOpen(false); }}
+                    className="bg-white/10 hover:bg-white/20 w-full rounded-full px-5 py-3 text-center text-lg font-medium text-white transition-all border border-white/10 mt-4"
+                  >
+                    Sair
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  className="bg-brand-signature hover:bg-brand-signature/90 w-full rounded-full px-5 py-3 text-center text-lg font-medium text-white shadow-md transition-all mt-4"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Entrar
+                </Link>
+              )}
             </nav>
           </motion.div>
         )}

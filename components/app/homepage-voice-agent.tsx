@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { ConnectionState, RemoteParticipant, Track } from 'livekit-client';
 // Assuming standard UI button or I can use the custom one if it fits
 import { Loader2, MessageCircle, X } from 'lucide-react';
@@ -14,6 +16,9 @@ import { Button } from '@/components/livekit/button';
 import { GlowingRingVisualizer } from './glowing-ring-visualizer';
 
 export function HomepageVoiceAgent() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
   const [connectionDetails, setConnectionDetails] = useState<{
     serverUrl: string;
     roomName: string;
@@ -24,6 +29,11 @@ export function HomepageVoiceAgent() {
   const [error, setError] = useState<string | null>(null);
 
   const connect = useCallback(async () => {
+    if (status === 'unauthenticated') {
+      router.push('/login')
+      return
+    }
+
     setIsConnecting(true);
     setError(null);
     try {
@@ -32,7 +42,10 @@ export function HomepageVoiceAgent() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({
+          identity: session?.user?.id,
+          name: session?.user?.name
+        }),
       });
       if (!response.ok) {
         throw new Error('Failed to load connection details');
@@ -45,11 +58,26 @@ export function HomepageVoiceAgent() {
     } finally {
       setIsConnecting(false);
     }
-  }, []);
+  }, [session, status, router]);
 
   const disconnect = useCallback(() => {
     setConnectionDetails(null);
   }, []);
+
+  if (status === 'loading') {
+    return <div className="text-white">A carregar...</div>
+  }
+
+  if (status === 'unauthenticated') {
+    return (
+      <div className="flex flex-col items-center gap-4 text-white">
+        <p>Precisa de entrar para falar com a EmpatIA.</p>
+        <Button onClick={() => router.push('/login')}>
+          Entrar na Conta
+        </Button>
+      </div>
+    )
+  }
 
   if (connectionDetails) {
     return (
@@ -70,6 +98,7 @@ export function HomepageVoiceAgent() {
 
   return (
     <div className="flex flex-col items-center gap-4">
+      <div className="text-white/60 text-sm mb-2">Olá, {session?.user?.name}</div>
       <Button
         onClick={connect}
         disabled={isConnecting}
