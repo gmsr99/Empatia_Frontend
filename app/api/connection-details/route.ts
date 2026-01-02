@@ -35,9 +35,13 @@ export async function POST(req: Request) {
     const requestedIdentity: string | undefined = body?.identity;
     const requestedName: string | undefined = body?.name;
 
+    console.log("Connection Request Debug:", { requestedIdentity, requestedName, bodyIdentity: body.identity });
+
     // Generate participant token
     const participantIdentity =
       requestedIdentity || `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`;
+
+    console.log("Generated Participant Identity:", participantIdentity);
     const participantName = requestedName || 'user';
     const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
 
