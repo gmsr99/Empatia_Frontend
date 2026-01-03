@@ -47,6 +47,7 @@ export function HomepageVoiceAgent() {
           name: session?.user?.name,
         }),
       });
+      console.log('DEBUG: Sending identity to API:', session?.user?.id);
       if (!response.ok) {
         throw new Error('Failed to load connection details');
       }

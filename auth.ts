@@ -52,7 +52,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
 
             console.log('User authenticated successfully:', user.id);
-            return user;
+            // Explicitly return the user object with id as string
+            return {
+              id: String(user.id),
+              email: user.email,
+              name: user.name,
+            };
           } finally {
             client.release();
           }
