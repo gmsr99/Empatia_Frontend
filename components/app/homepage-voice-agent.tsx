@@ -4,12 +4,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ConnectionState, RemoteParticipant, Track } from 'livekit-client';
-// Assuming standard UI button or I can use the custom one if it fits
-import { Loader2, MessageCircle, X } from 'lucide-react';
+import { AlertCircle, Loader2, MessageCircle, Mic, MicOff, X } from 'lucide-react';
 import {
   LiveKitRoom,
   RoomAudioRenderer,
   useConnectionState,
+  useLocalParticipant,
   useTracks,
 } from '@livekit/components-react';
 import { Button } from '@/components/livekit/button';
@@ -64,6 +64,12 @@ export function HomepageVoiceAgent() {
     setConnectionDetails(null);
   }, []);
 
+  const handleMediaDeviceFailure = useCallback((failure?: unknown) => {
+    console.error('Media Device Failure:', failure);
+    setError('Erro ao aceder ao microfone. Por favor verifique as permissões.');
+    // Don't disconnect immediately, let user see the error
+  }, []);
+
   if (status === 'loading') {
     return <div className="text-white">A carregar...</div>;
   }
@@ -86,10 +92,20 @@ export function HomepageVoiceAgent() {
         audio={true}
         video={false}
         onDisconnected={disconnect}
+        onMediaDeviceFailure={handleMediaDeviceFailure}
         className="relative flex h-[400px] w-full max-w-md flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl"
       >
         <RoomAudioRenderer />
         <AgentVisualizer onDisconnect={disconnect} />
+        {error && (
+          <div className="absolute top-4 right-4 left-4 z-50 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/80 p-3 text-sm text-red-100 backdrop-blur-md">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <span>{error}</span>
+            <button onClick={() => setError(null)} className="ml-auto">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </LiveKitRoom>
     );
   }
@@ -116,24 +132,14 @@ export function HomepageVoiceAgent() {
 
 function AgentVisualizer({ onDisconnect }: { onDisconnect: () => void }) {
   const connectionState = useConnectionState();
-  // We want to visualize the AGENT's audio, which is a Remote Audio Track.
-  // Actually usually we might want to visualize the mixed audio or just the agent.
-  // Let's filter for remote tracks first.
+  const { isMicrophoneEnabled, localParticipant } = useLocalParticipant();
 
+  // We want to visualize the AGENT's audio, which is a Remote Audio Track.
   const remoteTracks = useTracks([Track.Source.Microphone]).filter(
     (t) => t.participant instanceof RemoteParticipant
   );
 
-  // Ideally we visualize the dominant speaker or just the agent.
-  // For a 1-on-1 agent scenario, the remote track is the agent.
-
   const agentTrackRef = remoteTracks[0];
-  // If agent is not speaking, we might want to show user mic?
-  // The "Glowing Ai Voice Spectrum" usually reacts to the AI voice.
-  // Let's stick to Agent Voice for the main visualizer, maybe a smaller one for user?
-  // Or simpler: Just visualize whichever audio is playing?
-  // Let's visualize the REMOTE track (Agent).
-
   const [stream, setStream] = useState<MediaStream | undefined>(undefined);
 
   useEffect(() => {
@@ -142,9 +148,12 @@ function AgentVisualizer({ onDisconnect }: { onDisconnect: () => void }) {
     }
   }, [agentTrackRef]);
 
-  // Fallback: If no agent track yet (connecting), we can show a placeholder or user mic?
-  // Let's allow visualizing local mic if agent is silent/not valid?
-  // But usually the user wants to see the AI thinking/speaking.
+  const toggleMic = useCallback(async () => {
+    if (localParticipant) {
+      const current = localParticipant.isMicrophoneEnabled;
+      await localParticipant.setMicrophoneEnabled(!current);
+    }
+  }, [localParticipant]);
 
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center p-8">
@@ -163,6 +172,20 @@ function AgentVisualizer({ onDisconnect }: { onDisconnect: () => void }) {
 
       {/* Controls */}
       <div className="absolute bottom-6 flex items-center gap-4">
+        {/* Mic Toggle Indicator */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleMic}
+          className={`h-12 w-12 rounded-full border backdrop-blur-md transition-all ${
+            isMicrophoneEnabled
+              ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+              : 'border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20'
+          }`}
+        >
+          {isMicrophoneEnabled ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
+        </Button>
+
         <Button
           variant="destructive"
           size="icon"
