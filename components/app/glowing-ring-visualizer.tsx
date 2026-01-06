@@ -86,7 +86,8 @@ export function GlowingRingVisualizer({
 
       // If we have an active stream and analyser, get real data
       if (stream && analyserRef.current && dataArray) {
-        analyserRef.current.getByteFrequencyData(dataArray);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        analyserRef.current.getByteFrequencyData(dataArray as any);
 
         // Soft average of low-mids for a more "voice-reactive" feel rather than just sub-bass
         let energy = 0;
