@@ -240,8 +240,8 @@ function AgentVisualizer({ onDisconnect }: { onDisconnect: () => void }) {
           size="icon"
           onClick={toggleMic}
           className={`h-12 w-12 rounded-full border backdrop-blur-md transition-all ${isMicrophoneEnabled
-            ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
-            : 'border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20'
+              ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+              : 'border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20'
             }`}
         >
           {isMicrophoneEnabled ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
