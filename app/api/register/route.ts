@@ -37,7 +37,31 @@ export async function POST(req: Request) {
         'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, email',
         [name, email, hashedPassword]
       );
-      return NextResponse.json(res.rows[0]);
+
+      const newUser = res.rows[0];
+
+      // Notify n8n
+      const n8nUrl = process.env.N8N_WEBHOOK_URL;
+      if (n8nUrl) {
+        try {
+          // Fire and forget (don't block the response)
+          fetch(n8nUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: newUser.id,
+              email: newUser.email,
+              name: name,
+              event: 'user_registered',
+              timestamp: new Date().toISOString(),
+            }),
+          }).catch((err) => console.error('Error calling n8n:', err));
+        } catch (webhookErr) {
+          console.error('Error initiating n8n call:', webhookErr);
+        }
+      }
+
+      return NextResponse.json(newUser);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).code === '23505') {

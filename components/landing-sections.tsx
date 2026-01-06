@@ -363,8 +363,12 @@ export function ContactSection({ className, id }: SectionProps) {
           hello@empatia-portugal.pt
         </motion.a>
 
-        <div className="text-muted-foreground/50 border-t border-white/10 pt-12 text-sm">
-          © {new Date().getFullYear()} EmpatIA. Todos os direitos reservados.
+        <div className="text-muted-foreground/50 border-t border-white/10 pt-12 text-sm flex flex-col md:flex-row items-center justify-center gap-4">
+          <span>© {new Date().getFullYear()} EmpatIA. Todos os direitos reservados.</span>
+          <div className="flex gap-4">
+            <a href="/terms" className="hover:text-white transition-colors">Termos e Condições</a>
+            <a href="/privacy" className="hover:text-white transition-colors">Política de Privacidade</a>
+          </div>
         </div>
       </motion.div>
     </section>

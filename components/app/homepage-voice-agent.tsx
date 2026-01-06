@@ -66,9 +66,24 @@ export function HomepageVoiceAgent() {
   }, []);
 
   const handleMediaDeviceFailure = useCallback((failure?: unknown) => {
-    console.error('Media Device Failure:', failure);
-    setError('Erro ao aceder ao microfone. Por favor verifique as permissões.');
-    // Don't disconnect immediately, let user see the error
+    console.error('Media Device Failure Detail:', {
+      failure,
+      isSecureContext: window.isSecureContext,
+      userAgent: navigator.userAgent
+    });
+
+    if (!window.isSecureContext) {
+      setError('Erro de Segurança: O microfone só funciona em "localhost" ou "https". Verifique o URL.');
+      return;
+    }
+
+    // Detailed advice for MacOS/Chrome/Safari
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    if (isMac) {
+      setError('Erro no Microfone: Verifique se o browser tem permissão em "Definições do Sistema > Segurança e Privacidade > Microfone".');
+    } else {
+      setError('Erro ao aceder ao microfone. Por favor verifique as permissões do browser.');
+    }
   }, []);
 
   if (status === 'loading') {
@@ -99,12 +114,26 @@ export function HomepageVoiceAgent() {
         <RoomAudioRenderer />
         <AgentVisualizer onDisconnect={disconnect} />
         {error && (
-          <div className="absolute top-4 right-4 left-4 z-50 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/80 p-3 text-sm text-red-100 backdrop-blur-md">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <span>{error}</span>
-            <button onClick={() => setError(null)} className="ml-auto">
-              <X className="h-4 w-4" />
-            </button>
+          <div className="absolute top-4 right-4 left-4 z-50 flex flex-col gap-2 rounded-lg border border-red-500/50 bg-red-900/90 p-3 text-sm text-red-100 shadow-xl backdrop-blur-md">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <span>{error}</span>
+              <button onClick={() => setError(null)} className="ml-auto opacity-70 hover:opacity-100">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setError(null);
+                disconnect();
+                setTimeout(connect, 100);
+              }}
+              className="mt-1 h-8 bg-white/10 text-xs text-white hover:bg-white/20"
+            >
+              Tentar Novamente
+            </Button>
           </div>
         )}
       </LiveKitRoom>
@@ -178,11 +207,10 @@ function AgentVisualizer({ onDisconnect }: { onDisconnect: () => void }) {
           variant="ghost"
           size="icon"
           onClick={toggleMic}
-          className={`h-12 w-12 rounded-full border backdrop-blur-md transition-all ${
-            isMicrophoneEnabled
+          className={`h-12 w-12 rounded-full border backdrop-blur-md transition-all ${isMicrophoneEnabled
               ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
               : 'border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20'
-          }`}
+            }`}
         >
           {isMicrophoneEnabled ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
         </Button>
