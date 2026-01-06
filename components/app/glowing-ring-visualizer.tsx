@@ -21,36 +21,41 @@ export function GlowingRingVisualizer({
   const animationRef = useRef<number>(0);
 
   useEffect(() => {
-    if (!stream || !canvasRef.current || !containerRef.current) return;
+    if (!canvasRef.current || !containerRef.current) return;
 
-    // Initialize Audio Context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!audioContextRef.current) {
-      audioContextRef.current = new AudioContext();
+    // Only set up audio context if we have a stream
+    if (stream) {
+      // Initialize Audio Context
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext();
+      }
+
+      const audioCtx = audioContextRef.current;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Create Analyser
+      if (!analyserRef.current) {
+        analyserRef.current = audioCtx.createAnalyser();
+        analyserRef.current.fftSize = 512; // Increased for better resolution
+        analyserRef.current.smoothingTimeConstant = 0.92; // High smoothing for creamy motion
+      }
+
+      // Connect Stream
+      try {
+        if (sourceRef.current) {
+          sourceRef.current.disconnect();
+        }
+        sourceRef.current = audioCtx.createMediaStreamSource(stream);
+        sourceRef.current.connect(analyserRef.current);
+      } catch (err) {
+        console.error('Error creating media stream source:', err);
+      }
     }
 
-    const audioCtx = audioContextRef.current;
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-
-    // Create Analyser
-    analyserRef.current = audioCtx.createAnalyser();
-    analyserRef.current.fftSize = 512; // Increased for better resolution
-    analyserRef.current.smoothingTimeConstant = 0.92; // High smoothing for creamy motion
-
-    // Connect Stream
-    try {
-      sourceRef.current = audioCtx.createMediaStreamSource(stream);
-      sourceRef.current.connect(analyserRef.current);
-    } catch (err) {
-      console.error('Error creating media stream source:', err);
-      return;
-    }
-
-    const bufferLength = analyserRef.current.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -67,27 +72,37 @@ export function GlowingRingVisualizer({
     window.addEventListener('resize', resizeCanvas);
 
     let phase = 0;
+    // Buffer for frequency data if needed
+    let dataArray: Uint8Array | null = null;
+    if (analyserRef.current) {
+      const bufferLength = analyserRef.current.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+    }
 
     const renderFrame = () => {
       animationRef.current = requestAnimationFrame(renderFrame);
-      if (!analyserRef.current) return;
 
-      analyserRef.current.getByteFrequencyData(dataArray);
+      let normalizedEnergy = 0;
 
-      // Soft average of low-mids for a more "voice-reactive" feel rather than just sub-bass
-      let energy = 0;
-      const rangeStart = 2;
-      const rangeEnd = 25; // Focus on voice fundamental frequencies
-      for (let i = rangeStart; i < rangeEnd; i++) {
-        energy += dataArray[i];
+      // If we have an active stream and analyser, get real data
+      if (stream && analyserRef.current && dataArray) {
+        analyserRef.current.getByteFrequencyData(dataArray);
+
+        // Soft average of low-mids for a more "voice-reactive" feel rather than just sub-bass
+        let energy = 0;
+        const rangeStart = 2;
+        const rangeEnd = 25; // Focus on voice fundamental frequencies
+        for (let i = rangeStart; i < rangeEnd; i++) {
+          energy += dataArray[i];
+        }
+        energy = energy / (rangeEnd - rangeStart);
+        normalizedEnergy = energy / 255; // 0 to 1
       }
-      energy = energy / (rangeEnd - rangeStart);
-      const normalizedEnergy = energy / 255; // 0 to 1
 
       const { width, height } = containerRef.current!.getBoundingClientRect();
       const centerX = width / 2;
       const centerY = height / 2;
-      const radius = Math.min(width, height) / 3.8; // Slightly smaller base radius
+      const radius = Math.min(width, height) / 3.2; // Increased size relative to container
 
       ctx.clearRect(0, 0, width, height);
 
@@ -218,19 +233,6 @@ export function GlowingRingVisualizer({
       // Do not close AudioContext as it might be shared or reused, but disconnecting implementation is enough for now.
     };
   }, [stream]);
-
-  if (!stream) {
-    // Placeholder or "Listening" state potentially?
-    // For now just empty or a static ring could be rendered.
-    return (
-      <div
-        className="text-brand-lilac/50 flex animate-pulse items-center justify-center font-mono text-sm"
-        style={{ height, width }}
-      >
-        Waiting for audio...
-      </div>
-    );
-  }
 
   return (
     <div

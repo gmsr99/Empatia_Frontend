@@ -103,6 +103,10 @@ export function HomepageVoiceAgent() {
     );
   }
 
+  // Common container classes for consistent look
+  const containerClasses =
+    'relative flex h-[400px] w-full max-w-md flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl';
+
   if (connectionDetails) {
     return (
       <LiveKitRoom
@@ -113,7 +117,7 @@ export function HomepageVoiceAgent() {
         video={false}
         onDisconnected={disconnect}
         onMediaDeviceFailure={handleMediaDeviceFailure}
-        className="relative flex h-[400px] w-full max-w-md flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl"
+        className={containerClasses}
       >
         <RoomAudioRenderer />
         <AgentVisualizer onDisconnect={disconnect} />
@@ -148,21 +152,42 @@ export function HomepageVoiceAgent() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="mb-2 text-sm text-white/60">Olá, {session?.user?.name}</div>
-      <Button
-        onClick={connect}
-        disabled={isConnecting}
-        className="group text-brand-signature relative inline-flex h-12 items-center gap-3 overflow-hidden rounded-full bg-white px-8 text-base font-medium shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all hover:scale-105 hover:bg-white/90 disabled:opacity-70"
-      >
-        {isConnecting ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <MessageCircle className="h-4 w-4 transition-transform group-hover:rotate-12" />
-        )}
-        <span>{isConnecting ? 'A Ligação...' : 'Começar Conversa'}</span>
-      </Button>
-      {error && <p className="text-sm text-red-400">{error}</p>}
+    <div className={containerClasses}>
+      {/* Content Vertical Stack */}
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-4 py-6">
+        {/* 1. Text Header */}
+        <div className="space-y-1 text-center">
+          <div className="text-brand-lilac text-xs font-medium tracking-widest uppercase">
+            Olá, {session?.user?.name?.split(' ')[0]}
+          </div>
+          <h3 className="font-heading text-xl text-white/90">Posso ajudar?</h3>
+        </div>
+
+        {/* 2. Visualizer (Rings) */}
+        <div className="flex items-center justify-center">
+          <GlowingRingVisualizer height="180px" width="180px" />
+        </div>
+
+        {/* 3. Button */}
+        <div className="flex flex-col items-center gap-2">
+          <Button
+            onClick={connect}
+            disabled={isConnecting}
+            className="group text-brand-signature relative inline-flex h-11 items-center gap-2.5 overflow-hidden rounded-full bg-white px-6 text-sm font-semibold shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all hover:scale-105 hover:bg-white/90 disabled:opacity-70"
+          >
+            {isConnecting ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <MessageCircle className="h-4 w-4 transition-transform group-hover:rotate-12" />
+            )}
+            <span>{isConnecting ? 'A Ligação...' : 'Conversar Agora'}</span>
+          </Button>
+
+          {error && (
+            <p className="max-w-[250px] animate-pulse text-center text-xs text-red-400">{error}</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -214,11 +239,10 @@ function AgentVisualizer({ onDisconnect }: { onDisconnect: () => void }) {
           variant="ghost"
           size="icon"
           onClick={toggleMic}
-          className={`h-12 w-12 rounded-full border backdrop-blur-md transition-all ${
-            isMicrophoneEnabled
-              ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
-              : 'border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20'
-          }`}
+          className={`h-12 w-12 rounded-full border backdrop-blur-md transition-all ${isMicrophoneEnabled
+            ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+            : 'border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20'
+            }`}
         >
           {isMicrophoneEnabled ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
         </Button>
